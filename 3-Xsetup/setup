@@ -1,0 +1,40 @@
+1) Install i3
+pacman -S i3
+# Add launcher
+pacman -S dmenu
+# Add modified i3status from AUR
+mkdir ~/build-repos
+cd build-repos
+git clone <repo>
+#Inspect it before building!
+makepkg -sri
+
+2) Install LightDM
+pacman -S lightdm
+# Add greeter
+pacman -S lightdm-gkt-greeter
+
+3) Configure LightDM
+vim /etc/lightdm/lightdm.conf
+# In section [Seat:*]:
+greeter-session=lightdm-gtk-greeter
+# Enable autologin
+pam-service=lightdm
+pam-autologin-service=lightdm-autologin
+autologin-user=<username>
+autologin-timeout=0
+
+4) Enable lightdm
+lightdm.service
+
+5) Install nitrogen
+pacman -S nitrogen
+# Select background-folder
+nitrogen /path/to/image/directory/
+
+5) Place configuration symlinks
+config-i3 -> ~/.config/i3/config
+i3status.conf -> ~/.config/i3/i3status.conf
+config-terminator -> ~/.config/terminator/config
+00-keyboard.conf -> /etc/X11/xorg.conf.d/00-keyboard.conf
+xorg.conf -> /etc/X11/xorg.conf

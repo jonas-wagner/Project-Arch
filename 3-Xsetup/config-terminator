@@ -1,0 +1,23 @@
+[global_config]
+  title_font = Ubuntu Mono 12
+  title_use_system_font = False
+[keybindings]
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      profile = default
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_darkness = 0.68
+    background_image = None
+    background_type = transparent
+    font = Ubuntu Mono 10
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False
