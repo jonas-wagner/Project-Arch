@@ -1,0 +1,118 @@
+0) Install Windumb
+
+1) Create Arch image on USB
+dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
+
+2) Boot Arch image
+
+3) Optional: Select keyboardlayout
+# in my case it is not on the install image
+wget https://svn.neo-layout.org/linux/console/neo.map
+loadkeys neo
+# don't delete the map. we will use it later again
+
+4) Generate filesystem
+compare for example with https://wiki.ubuntuusers.de/System_verschl%C3%BCsseln/ (german)
+# There should already be a efi partition from windows
+# Create two partitions.
+	# /dev/sdx1 200mb ext4 as boot
+	# /dev/sdx2 remaining for crypto
+# Create crypto container (For security you may consider filling it with random numbers first)
+# This is only my set of parameters!
+cryptsetup luksFormat /dev/sdx2 -c aes-xts-plain64 -s 512 -h sha512
+
+5) Generate logical volumes
+# last part is free to choose
+cryptsetup open /dev/sdx2 sdx2_lvm
+pvcreate /dev/mapper/sdx2_lvm
+vgcreate linux
+# finally create actual volumes
+lvcreate -L 8G linux -n swap
+lvcreate -l 100%FREE linux -n root
+# format them
+mkfs.ext4 /def/mapper/linux-root
+mkswap /dev/mapper/linux-swap
+
+6) Mount volumes and turn on swap
+mount /dev/mapper/linux-root /mnt
+mkdir /mnt/boot
+mount /dev/sdx1 /mnt/boot
+swapon /dev/mapper/linux-swap
+
+7) Optional: Connect wifi
+wifi-menu
+
+8) Install arch and include some packages
+# base-devel dialog wpa_supplicant for wifi
+# git zsh zsh-completions terminator vim are totally optional
+# nvidia required on my system, since noveau won't show anything
+pacstrap /mnt base base-devel dialog wpa_supplicant zsh zsh-completions git vim nvidia terminator
+
+9) Generate properties from install medium
+genfstab -U /mnt >> /mnt/etc/fstab
+mkdir /mnt/usr/share/kbd/keymaps/i386/neo
+cp neo.map /mnt/usr/share/kbd/keymaps/i386/neo
+
+10) Switch to installed system and make basic system configuration
+arch-chroot /mnt
+# Comment out required languages
+vim /etc/locale.gen
+# Generate them
+locale-gen
+# Check that locale is set correctly
+locale
+# If not edit the config. create if not there
+/etc/locale.conf
+# Insert your language setup. Do not set LC_ALL!
+--------------------------
+LANG=en_GB.utf8
+LC_CTYPE="en_GB.utf8"
+LC_NUMERIC="en_GB.utf8"
+LC_TIME=de_DE.UTF-8
+LC_COLLATE="en_GB.utf8"
+LC_MONETARY="en_GB.utf8"
+LC_MESSAGES="en_GB.utf8"
+LC_PAPER="en_GB.utf8"
+LC_NAME="en_GB.utf8"
+LC_ADDRESS="en_GB.utf8"
+LC_TELEPHONE="en_GB.utf8"
+LC_MEASUREMENT=de_DE.UTF-8
+LC_IDENTIFICATION="en_GB.utf8"
+LC_ALL=
+--------------------------
+# Set localtime
+ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+# Set hostname e.g. bla
+echo bla > /etc/hostname
+# Set root password
+passwd
+# Make keyboard layout permanent
+echo KEYMAP=neo > /etc/vconsole.conf
+
+11) Setup boot image
+# Add required hooks for decryption:
+	# Add:'keymap .. keyboard .. encrypt lvm2 .. filesystems ..'
+	# Note that hooks will be executed in order
+vim /etc/mkinitcpio.conf
+mkinitcpio -p linux
+
+12) Almost done. Bootloader
+bootctl install
+# Add following files and lines:
+# this will make the uuid easier
+echo blkid > /boot/loader/entries/arch.conf
+# File: /boot/loader/entries/arch.conf:
+# title   Arch Linux
+# linux   /vmlinuz-linux
+# initrd  /initramfs-linux.img
+# options cryptdevice=UUID=<UUID of /de/sdX2>:lvm root=/dev/mapper/linux-root rw
+# File: /boot/loader/loader.conf:
+# default arch
+# timeout 1
+
+13) Done!
+exit
+umount -R \mnt
+reboot
+# login with root and selected password
+# Continue with basic setup
