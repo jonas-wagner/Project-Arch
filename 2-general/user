@@ -21,3 +21,7 @@ vim /etc/fstab
 git config --global user.name  "John Doe"
 git config --global user.email "johndoe@foobar.com"
 
+3) Set multimedia keys
+pacman -S xbindkeys
+# .xbindkeysrc -> ~/.xbindkeysrc
+xbindkeys -p
