@@ -5,7 +5,7 @@ pacman -S dmenu
 # Add modified i3status from AUR
 mkdir ~/build-repos
 cd build-repos
-git clone <repo>
+git clone https://aur.archlinux.org/i3pystatus-git.git
 #Inspect it before building!
 makepkg -sri
 
@@ -34,7 +34,7 @@ nitrogen /path/to/image/directory/
 
 5) Place configuration symlinks
 config-i3 -> ~/.config/i3/config
-i3status.conf -> ~/.config/i3/i3status.conf
+pystatus.py -> ~/.config/i3/pystatus.py
 config-terminator -> ~/.config/terminator/config
 00-keyboard.conf -> /etc/X11/xorg.conf.d/00-keyboard.conf
 xorg.conf -> /etc/X11/xorg.conf
