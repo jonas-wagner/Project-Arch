@@ -23,5 +23,5 @@ git config --global user.email "johndoe@foobar.com"
 
 3) Set multimedia keys
 pacman -S xbindkeys
-# .xbindkeysrc -> ~/.xbindkeysrc
+ln -s .xbindkeysrc -> ~/.xbindkeysrc
 xbindkeys -p
