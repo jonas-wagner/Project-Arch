@@ -33,8 +33,8 @@ pacman -S nitrogen
 nitrogen /path/to/image/directory/
 
 5) Place configuration symlinks
-config-i3 -> ~/.config/i3/config
-pystatus.py -> ~/.config/i3/pystatus.py
-config-terminator -> ~/.config/terminator/config
-00-keyboard.conf -> /etc/X11/xorg.conf.d/00-keyboard.conf
-xorg.conf -> /etc/X11/xorg.conf
+ln -s config-i3 ~/.config/i3/config
+ln -s pystatus.py ~/.config/i3/pystatus.py
+ln -s config-terminator ~/.config/terminator/config
+sudo cp 00-keyboard.conf /etc/X11/xorg.conf.d/00-keyboard.conf
+sudo cp xorg.conf /etc/X11/xorg.conf
