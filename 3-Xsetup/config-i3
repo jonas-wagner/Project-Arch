@@ -44,8 +44,8 @@ bindsym $mod+a exec dmenu_run
 
 # change focus
 bindsym $mod+n focus left
-bindsym $mod+r focus down
-bindsym $mod+t focus up
+bindsym $mod+t focus down
+bindsym $mod+r focus up
 bindsym $mod+d focus right
 
 # alternatively, you can use the cursor keys:
@@ -56,8 +56,8 @@ bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+n move left
-bindsym $mod+Shift+r move down
-bindsym $mod+Shift+t move up
+bindsym $mod+Shift+t move down
+bindsym $mod+Shift+r move up
 bindsym $mod+Shift+d move right
 
 # alternatively, you can use the cursor keys:
@@ -90,7 +90,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+u focus parent
 
 # focus the child container
-#bindsym $mod+e focus child
+bindsym $mod+e focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -147,6 +147,20 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
+mode "moveit" {
+    bindsym $mod+r move up 20px
+    bindsym $mod+n move left 20px
+    bindsym $mod+t move down 20px
+    bindsym $mod+d move right 20px
+    bindsym $mod+m mode "default"
+    bindsym Return mode "deafult"
+    bindsym Escape mode "default"
+}
+bindsym $mod+m focus floating; mode "moveit"
+
+
+
+
 bindsym $mod+h mode "resize"
 
 #jump to urgent
@@ -158,6 +172,7 @@ exec --no-startup-id nitrogen --restore
 set $Locker i3lock && sleep 1
 
 bindsym $mod+Pause exec $Locker
+bindsym Control+Alt+l exec $Locker
 
 set $mode_system System (l) lock, (e) logout, (Shift+s) suspend, (h) hibernate, (r) reboot, (s) shutdown
 mode "$mode_system" {
@@ -173,8 +188,11 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
+
+#Custom hotkeys
 bindsym $mod+XF86HomePage mode "$mode_system"
 
+# new_window 1pixel
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -183,3 +201,7 @@ bar {
         # This is for the pywrapper instead
 	# status_command py3status -c ~/.config/i3/i3status.conf
 }
+
+# Assignments
+# assign [class="Pidgin"] 2
+for_window [class="Pidgin" window_role="buddy_list"] floating enable
