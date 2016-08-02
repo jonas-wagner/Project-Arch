@@ -1,4 +1,6 @@
 1) Create user
+groupadd autologin
+visudo
 # Wheel to be able to sudo
 # Autologin will be used for exactly that ;)
 # Zsh as default shell
