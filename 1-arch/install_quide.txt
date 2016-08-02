@@ -5,13 +5,16 @@ dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
 
 2) Boot Arch image
 
-3) Optional: Select keyboardlayout
+3) Optional: Connect wifi
+wifi-menu
+
+4) Optional: Select keyboardlayout
 # in my case it is not on the install image
 wget https://svn.neo-layout.org/linux/console/neo.map
 loadkeys neo
 # don't delete the map. we will use it later again
 
-4) Generate filesystem
+5) Generate filesystem
 compare for example with https://wiki.ubuntuusers.de/System_verschl%C3%BCsseln/ (german)
 # There should already be a efi partition from windows
 # Create two partitions.
@@ -21,7 +24,7 @@ compare for example with https://wiki.ubuntuusers.de/System_verschl%C3%BCsseln/ 
 # This is only my set of parameters!
 cryptsetup luksFormat /dev/sdx2 -c aes-xts-plain64 -s 512 -h sha512
 
-5) Generate logical volumes
+6) Generate logical volumes
 # last part is free to choose
 cryptsetup open /dev/sdx2 sdx2_lvm
 pvcreate /dev/mapper/sdx2_lvm
@@ -33,14 +36,11 @@ lvcreate -l 100%FREE linux -n root
 mkfs.ext4 /def/mapper/linux-root
 mkswap /dev/mapper/linux-swap
 
-6) Mount volumes and turn on swap
+7) Mount volumes and turn on swap
 mount /dev/mapper/linux-root /mnt
 mkdir /mnt/boot
 mount /dev/sdx1 /mnt/boot
 swapon /dev/mapper/linux-swap
-
-7) Optional: Connect wifi
-wifi-menu
 
 8) Install arch and include some packages
 # base-devel dialog wpa_supplicant for wifi
