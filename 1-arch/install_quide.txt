@@ -18,7 +18,7 @@ loadkeys neo
 compare for example with https://wiki.ubuntuusers.de/System_verschl%C3%BCsseln/ (german)
 # There should already be a efi partition from windows
 # Create two partitions.
-	# /dev/sdx1 200mb ext4 as boot
+	# /dev/sdx1 500mb EF00 as boot (or use existing EFI-partition in case of dualboot)
 	# /dev/sdx2 remaining for crypto
 # Create crypto container (For security you may consider filling it with random numbers first)
 # This is only my set of parameters!
@@ -105,7 +105,7 @@ echo blkid > /boot/loader/entries/arch.conf
 # title   Arch Linux
 # linux   /vmlinuz-linux
 # initrd  /initramfs-linux.img
-# options cryptdevice=UUID=<UUID of /de/sdX2>:lvm root=/dev/mapper/linux-root rw
+# options cryptdevice=UUID=UUID of /de/sdX2 here:lvm root=/dev/mapper/linux-root rw
 # File: /boot/loader/loader.conf:
 # default arch
 # timeout 1
