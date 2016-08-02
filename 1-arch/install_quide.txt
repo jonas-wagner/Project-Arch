@@ -25,7 +25,7 @@ cryptsetup luksFormat /dev/sdx2 -c aes-xts-plain64 -s 512 -h sha512
 # last part is free to choose
 cryptsetup open /dev/sdx2 sdx2_lvm
 pvcreate /dev/mapper/sdx2_lvm
-vgcreate linux
+vgcreate linux /dev/mapper/sdx2_lvm
 # finally create actual volumes
 lvcreate -L 8G linux -n swap
 lvcreate -l 100%FREE linux -n root
