@@ -3,6 +3,7 @@
 # Autologin will be used for exactly that ;)
 # Zsh as default shell
 useradd -m -G wheel,autologin -s /bin/zsh john
+passwd john
 
 2) Add additional internal drives to fstab
 # Get uuid from blkid
