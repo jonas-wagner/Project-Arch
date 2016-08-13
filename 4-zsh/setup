@@ -5,9 +5,8 @@ pacman -S powerline-fonts
 2) Install zpretzo following their github instructions
 # Make sure that ~/.zshrc does not exist!
 # If there is any error remove the blocking file and try again
-# Select the theme agnoster
-prompt -p agnoster
-# edit zpreztorc to enable more modules
+rm ~/.zpretztorc
+ln -s .zpreztorc ~/.zpretztorc
 
 3) Terminator bugfix
 # It may be that terminator doesn't display fonts correctly
