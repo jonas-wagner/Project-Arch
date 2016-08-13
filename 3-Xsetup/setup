@@ -36,5 +36,4 @@ nitrogen /path/to/image/directory/
 ln -s config-i3 ~/.config/i3/config
 ln -s pystatus.py ~/.config/i3/pystatus.py
 ln -s config-terminator ~/.config/terminator/config
-sudo cp 00-keyboard.conf /etc/X11/xorg.conf.d/00-keyboard.conf
-sudo cp xorg.conf /etc/X11/xorg.conf
+sudo cp *.conf /etc/X11/xorg.conf.d/
